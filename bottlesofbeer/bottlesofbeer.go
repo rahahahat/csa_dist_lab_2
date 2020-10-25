@@ -31,6 +31,7 @@ func (s *BottlesOfBeer) Call(req Request, res *Response) (err error) {
 		request := Request{Bottles: newBottles}
 		response := new(Response)
 		client1, _ := rpc.Dial("tcp", *&nextAddr)
+		defer client1.Close()
 		fmt.Println("bottles on the wall", newBottles)
 		time.Sleep(2 * time.Second)
 		client1.Call("BottlesOfBeer.Call", request, &response)
@@ -51,6 +52,7 @@ func main() {
 		request := Request{Bottles: *bottles}
 		response := new(Response)
 		client, _ := rpc.Dial("tcp", *&nextAddr)
+		defer client.Close()
 		fmt.Println("bottles on the wall", *bottles)
 		time.Sleep(2 * time.Second)
 		client.Go(Call, request, &response, nil)
