@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"net"
 	"net/rpc"
 	"time"
 	//	"net"
@@ -51,12 +52,12 @@ func main() {
 		client, _ := rpc.Dial("tcp", *&nextAddr)
 		fmt.Println("bottles on the wall", *bottles)
 		time.Sleep(2 * time.Second)
-		client.Call(Call, request, &response)
+		// test := make(chan bool)
+		client.Go(Call, request, &response, nil)
 	}
-	fmt.Println(thisPort)
-	// listener, _ := net.Listen("tcp", ":"+*thisPort)
-	// defer listener.Close()
-	// rpc.Accept(listener)
+	listener, _ := net.Listen("tcp", ":"+*thisPort)
+	defer listener.Close()
+	rpc.Accept(listener)
 	//TODO: Up to you from here! Remember, you'll need to both listen for
 	//RPC calls and make your own.
 }
