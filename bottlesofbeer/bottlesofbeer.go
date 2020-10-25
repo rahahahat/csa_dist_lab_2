@@ -43,7 +43,7 @@ func (s *BottlesOfBeer) Call(req Request, res *Response) (err error) {
 		defer client1.Close()
 		print(newBottles)
 		time.Sleep(1 * time.Second)
-		client1.Call("BottlesOfBeer.Call", request, &response)
+		client1.Go("BottlesOfBeer.Call", request, &response, nil)
 		return
 	} else {
 		listener.Close()
