@@ -44,6 +44,9 @@ func (s *BottlesOfBeer) Call(req Request, res *Response) (err error) {
 		print(newBottles)
 		time.Sleep(1 * time.Second)
 		client1.Go("BottlesOfBeer.Call", request, &response, nil)
+		if req.Bottles == 1 {
+			listener.Close()
+		}
 		return
 	} else {
 		listener.Close()
