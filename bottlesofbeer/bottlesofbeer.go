@@ -9,6 +9,8 @@ import (
 	//	"net"
 )
 
+var listener net.Listener
+
 var nextAddr string
 
 var Call = "BottlesOfBeer.Call"
@@ -44,6 +46,7 @@ func (s *BottlesOfBeer) Call(req Request, res *Response) (err error) {
 		client1.Call("BottlesOfBeer.Call", request, &response)
 		return
 	} else {
+		listener.Close()
 		return
 	}
 }
