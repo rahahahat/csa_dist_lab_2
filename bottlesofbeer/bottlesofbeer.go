@@ -41,9 +41,9 @@ func (s *BottlesOfBeer) Call(req Request, res *Response) (err error) {
 		response := new(Response)
 		client1, _ := rpc.Dial("tcp", *&nextAddr)
 		defer client1.Close()
-		print(newBottles)
+		print(req.Bottles)
 		time.Sleep(1 * time.Second)
-		client1.Go("BottlesOfBeer.Call", request, &response, nil)
+		client1.Go("BottlesOfBeer.Call", request, response, nil)
 		if req.Bottles == 1 {
 			listener.Close()
 		}
@@ -61,13 +61,13 @@ func main() {
 	flag.Parse()
 	rpc.Register(&BottlesOfBeer{})
 	if *bottles != 0 {
-		request := Request{Bottles: *bottles}
+		request := Request{Bottles: *bottles - 1}
 		response := new(Response)
 		client, _ := rpc.Dial("tcp", *&nextAddr)
 		defer client.Close()
 		print(*bottles)
 		time.Sleep(1 * time.Second)
-		client.Go(Call, request, &response, nil)
+		client.Go(Call, request, response, nil)
 	}
 	listener, _ := net.Listen("tcp", ":"+*thisPort)
 	defer listener.Close()
