@@ -32,6 +32,7 @@ func (s *BottlesOfBeer) Call(req Request, res *Response) (err error) {
 		response := new(Response)
 		client1, _ := rpc.Dial("tcp", *&nextAddr)
 		fmt.Println("bottles on the wall", newBottles)
+		time.Sleep(2 * time.Second)
 		client1.Call("BottlesOfBeer.Call", request, &response)
 		return
 	} else {
@@ -52,7 +53,6 @@ func main() {
 		client, _ := rpc.Dial("tcp", *&nextAddr)
 		fmt.Println("bottles on the wall", *bottles)
 		time.Sleep(2 * time.Second)
-		// test := make(chan bool)
 		client.Go(Call, request, &response, nil)
 	}
 	listener, _ := net.Listen("tcp", ":"+*thisPort)
