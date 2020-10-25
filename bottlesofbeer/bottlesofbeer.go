@@ -33,7 +33,7 @@ func (s *BottlesOfBeer) Call(req Request, res *Response) (err error) {
 		client, _ := rpc.Dial("tcp", nextAddr)
 		fmt.Println("bottles on the wall", newBottles)
 		time.Sleep(2 * time.Second)
-		client.Call(Call, request, response)
+		client.Call("BottlesOfBeer.Call", request, response)
 		return
 	} else {
 		return
