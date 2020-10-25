@@ -55,6 +55,7 @@ func (s *BottlesOfBeer) Call(req Request, res *Response) (err error) {
 		response := new(Response)
 		client1, _ := rpc.Dial("tcp", *&nextAddr)
 		client1.Go("BottlesOfBeer.Call", request, response, nil)
+		count = -1
 		return
 	} else {
 		if count != -1 {
