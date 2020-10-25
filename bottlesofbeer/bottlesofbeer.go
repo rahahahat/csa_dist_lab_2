@@ -46,7 +46,7 @@ func main() {
 	flag.Parse()
 	rpc.Register(&BottlesOfBeer{})
 	if *bottles != 0 {
-		fmt.Println("Test")
+		fmt.Println(*bottles)
 		request := Request{Bottles: *bottles}
 		response := new(Response)
 		client, _ := rpc.Dial("tcp", *&nextAddr)
