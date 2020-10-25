@@ -23,20 +23,23 @@ type Request struct {
 
 type BottlesOfBeer struct{}
 
+func print(bottles int) {
+	fmt.Print(bottles)
+	fmt.Print(" bottles of beer on the wall, ")
+	fmt.Print(bottles)
+	fmt.Print(" bottles of beer.")
+	fmt.Println(" Take one down, pass it around...")
+}
+
 func (s *BottlesOfBeer) Call(req Request, res *Response) (err error) {
 	if req.Bottles != 0 {
-		fmt.Println("nextAddr", nextAddr)
 		newBottles := req.Bottles - 1
 		res.Bottles = newBottles
 		request := Request{Bottles: newBottles}
 		response := new(Response)
 		client1, _ := rpc.Dial("tcp", *&nextAddr)
 		defer client1.Close()
-		fmt.Print(newBottles)
-		fmt.Print(" bottles of beer on the wall, ")
-		fmt.Print(newBottles)
-		fmt.Print(" bottles of beer.")
-		fmt.Println(" Take one down, pass it around...")
+		print(newBottles)
 		time.Sleep(1 * time.Second)
 		client1.Call("BottlesOfBeer.Call", request, &response)
 		return
@@ -52,16 +55,11 @@ func main() {
 	flag.Parse()
 	rpc.Register(&BottlesOfBeer{})
 	if *bottles != 0 {
-		fmt.Println(*bottles)
 		request := Request{Bottles: *bottles}
 		response := new(Response)
 		client, _ := rpc.Dial("tcp", *&nextAddr)
 		defer client.Close()
-		fmt.Print(*bottles)
-		fmt.Print(" bottles of beer on the wall, ")
-		fmt.Print(*bottles)
-		fmt.Print(" bottles of beer.")
-		fmt.Println(" Take one down, pass it around...")
+		print(*bottles)
 		time.Sleep(1 * time.Second)
 		client.Go(Call, request, &response, nil)
 	}
