@@ -50,6 +50,7 @@ func main() {
 	rpc.Accept(listener)
 
 	if *bottles != 0 {
+		fmt.Println("Test")
 		request := Request{Bottles: *bottles}
 		response := new(Response)
 		client, _ := rpc.Dial("tcp", *&nextAddr)
