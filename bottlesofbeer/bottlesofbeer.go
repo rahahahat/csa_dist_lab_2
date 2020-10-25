@@ -3,7 +3,6 @@ package main
 import (
 	"flag"
 	"fmt"
-	"net"
 	"net/rpc"
 	"time"
 	//	"net"
@@ -30,9 +29,9 @@ func (s *BottlesOfBeer) Call(req Request, res *Response) (err error) {
 		res.Bottles = newBottles
 		request := Request{Bottles: newBottles}
 		response := new(Response)
-		client, _ := rpc.Dial("tcp", *&nextAddr)
+		client1, _ := rpc.Dial("tcp", *&nextAddr)
 		fmt.Println("bottles on the wall", newBottles)
-		client.Call("BottlesOfBeer.Call", request, &response)
+		client1.Call("BottlesOfBeer.Call", request, &response)
 		return
 	} else {
 		return
@@ -54,9 +53,9 @@ func main() {
 		time.Sleep(2 * time.Second)
 		client.Call(Call, request, &response)
 	}
-	listener, _ := net.Listen("tcp", ":"+*thisPort)
-	defer listener.Close()
-	rpc.Accept(listener)
+	// listener, _ := net.Listen("tcp", ":"+*thisPort)
+	// defer listener.Close()
+	// rpc.Accept(listener)
 	//TODO: Up to you from here! Remember, you'll need to both listen for
 	//RPC calls and make your own.
 }
