@@ -53,6 +53,7 @@ func main() {
 		time.Sleep(2 * time.Second)
 		client.Call(Call, request, &response)
 	}
+	fmt.Println(thisPort)
 	// listener, _ := net.Listen("tcp", ":"+*thisPort)
 	// defer listener.Close()
 	// rpc.Accept(listener)
