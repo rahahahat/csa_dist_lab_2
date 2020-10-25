@@ -45,10 +45,6 @@ func main() {
 	bottles := flag.Int("n", 0, "Bottles of Beer (launches song if not 0)")
 	flag.Parse()
 	rpc.Register(&BottlesOfBeer{})
-	listener, _ := net.Listen("tcp", ":"+*thisPort)
-	defer listener.Close()
-	rpc.Accept(listener)
-
 	if *bottles != 0 {
 		fmt.Println("Test")
 		request := Request{Bottles: *bottles}
@@ -58,6 +54,9 @@ func main() {
 		time.Sleep(2 * time.Second)
 		client.Call(Call, request, response)
 	}
+	listener, _ := net.Listen("tcp", ":"+*thisPort)
+	defer listener.Close()
+	rpc.Accept(listener)
 	//TODO: Up to you from here! Remember, you'll need to both listen for
 	//RPC calls and make your own.
 }
