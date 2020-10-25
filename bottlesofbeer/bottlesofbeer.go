@@ -25,15 +25,20 @@ type Request struct {
 type BottlesOfBeer struct{}
 
 func print(bottles int) {
-	fmt.Print(bottles)
-	fmt.Print(" bottles of beer on the wall, ")
-	fmt.Print(bottles)
-	fmt.Print(" bottles of beer.")
-	fmt.Println(" Take one down, pass it around...")
+	if bottles != 0 {
+		fmt.Print(bottles)
+		fmt.Print(" bottles of beer on the wall, ")
+		fmt.Print(bottles)
+		fmt.Print(" bottles of beer.")
+		fmt.Println(" Take one down, pass it around...")
+	} else {
+		fmt.Println("No more bottles of beer on the wall, no more bottles of beer.")
+		fmt.Println("There's nothing else to fall, because there's no more bottles of beer on the wall.")
+	}
 }
 
 func (s *BottlesOfBeer) Call(req Request, res *Response) (err error) {
-	if req.Bottles != 0 {
+	if req.Bottles > 0 {
 		newBottles := req.Bottles - 1
 		res.Bottles = newBottles
 		request := Request{Bottles: newBottles}
@@ -44,13 +49,19 @@ func (s *BottlesOfBeer) Call(req Request, res *Response) (err error) {
 		time.Sleep(1 * time.Second)
 		client1.Go("BottlesOfBeer.Call", request, response, nil)
 		return
+	} else if req.Bottles == 0 {
+		print(0)
+		request := Request{Bottles: -1}
+		response := new(Response)
+		client1, _ := rpc.Dial("tcp", *&nextAddr)
+		client1.Go("BottlesOfBeer.Call", request, response, nil)
+		return
 	} else {
-		if count != 1 {
-			request := Request{Bottles: 0}
+		if count != -1 {
+			request := Request{Bottles: -1}
 			response := new(Response)
 			client1, _ := rpc.Dial("tcp", *&nextAddr)
 			client1.Go("BottlesOfBeer.Call", request, response, nil)
-			count = 1
 			listener.Close()
 		} else {
 			listener.Close()
