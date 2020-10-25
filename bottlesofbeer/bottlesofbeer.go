@@ -71,7 +71,6 @@ func main() {
 		client.Go(Call, request, response, nil)
 	}
 	listener, _ := net.Listen("tcp", ":"+*thisPort)
-	defer listener.Close()
 	rpc.Accept(listener)
 	//TODO: Up to you from here! Remember, you'll need to both listen for
 	//RPC calls and make your own.
