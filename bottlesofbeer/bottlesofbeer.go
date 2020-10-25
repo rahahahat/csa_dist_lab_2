@@ -25,12 +25,13 @@ type BottlesOfBeer struct{}
 
 func (s *BottlesOfBeer) Call(req Request, res *Response) (err error) {
 	if req.Bottles != 0 {
+		fmt.Println("nextAddr", nextAddr)
 		newBottles := req.Bottles - 1
 		res.Bottles = newBottles
 		request := Request{Bottles: newBottles}
 		response := new(Response)
 		client, _ := rpc.Dial("tcp", nextAddr)
-		fmt.Println(string(newBottles) + " bottles of beer on the wall." + string(newBottles) + " Bottles of beer. Take one down and pass it around")
+		fmt.Println("bottles on the wall", newBottles)
 		time.Sleep(2 * time.Second)
 		client.Call(Call, request, response)
 		return
@@ -50,7 +51,7 @@ func main() {
 		request := Request{Bottles: *bottles}
 		response := new(Response)
 		client, _ := rpc.Dial("tcp", *&nextAddr)
-		fmt.Println(string(*bottles) + " bottles of beer on the wall." + string(*bottles) + " Bottles of beer. Take one down and pass it around")
+		fmt.Println("bottles on the wall", *bottles)
 		time.Sleep(2 * time.Second)
 		client.Call(Call, request, response)
 	}
