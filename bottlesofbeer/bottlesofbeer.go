@@ -23,7 +23,7 @@ type Request struct {
 
 type BottlesOfBeer struct{}
 
-func (s *BottlesOfBeer) Call(req Request, res Response) (err error) {
+func (s *BottlesOfBeer) Call(req Request, res *Response) (err error) {
 	if req.Bottles != 0 {
 		newBottles := req.Bottles - 1
 		res.Bottles = newBottles
