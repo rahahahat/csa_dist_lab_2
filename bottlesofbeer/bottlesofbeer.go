@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net"
 	"net/rpc"
+	"os"
 	"time"
 	//	"net"
 )
@@ -69,6 +70,7 @@ func (s *BottlesOfBeer) Call(req Request, res *Response) (err error) {
 			listener.Close()
 		} else {
 			listener.Close()
+			os.Exit()
 		}
 		return
 	}
