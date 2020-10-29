@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"net"
 	"net/rpc"
-	"os"
 	"time"
 	//	"net"
 )
@@ -67,11 +66,9 @@ func (s *BottlesOfBeer) Call(req Request, res *Response) (err error) {
 			client1, _ := rpc.Dial("tcp", *&nextAddr)
 			defer client1.Close()
 			client1.Go("BottlesOfBeer.Call", request, response, nil)
-			listener.Close()
-			os.Exit(0)
+			defer listener.Close()
 		} else {
-			listener.Close()
-			os.Exit(0)
+			defer listener.Close()
 		}
 		return
 	}
