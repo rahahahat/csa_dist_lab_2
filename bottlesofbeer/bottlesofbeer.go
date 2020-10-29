@@ -68,9 +68,10 @@ func (s *BottlesOfBeer) Call(req Request, res *Response) (err error) {
 			defer client1.Close()
 			client1.Go("BottlesOfBeer.Call", request, response, nil)
 			listener.Close()
+			os.Exit()
 		} else {
 			listener.Close()
-			os.Exit(0)
+			os.Exit()
 		}
 		return
 	}
